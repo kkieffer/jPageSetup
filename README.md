@@ -39,7 +39,7 @@ You can also add new Page types easily, prior to calling the dialog:
 AutoPageType.addType("Test Category", "My Test Type", 100, 150, PageMeasureUnit.PT);  //add a Paper format of 100x150 points
 ```
       
-![Demo Screenshot](https://github.com/kkieffer/jPageSetup/blob/master/PageSetupScreenshot.jpg "Demo Screenshot 2")
+![Demo Screenshot](https://github.com/kkieffer/jPageSetup/blob/master/PageSetupScreenshot2.jpg "Demo Screenshot 2")
 
 
 ## Building
@@ -55,4 +55,4 @@ Only the Java JRE 1.8 is required.  No other dependencies are needed.
 ## License
 
 This project is licensed under the Apache License - see the [LICENSE.md](LICENSE.md) file for details
-The icon is a modified version of the Creative Commons licensed icon [here](https://commons.wikimedia.org/wiki/File:Module_doc_page_icon.svg)
+The icon is a modified version of the Creative Commons licensed icon [here](https://commons.wikimedia.org/wiki/File:Module_doc_page_icon.svg).

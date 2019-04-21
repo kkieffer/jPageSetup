@@ -7,7 +7,7 @@ both show limited number of paper types.
 
 This library is an improved, fully native Java version that addresses the limitations and is also extensible.
 
-![Demo Screenshot](https://github.com/kkieffer/jCircularGauges/blob/master/PaegSetupScreenshot.jpg "Demo Screenshot")
+![Demo Screenshot](https://github.com/kkieffer/jPageSetup/blob/master/PaegSetupScreenshot.jpg "Demo Screenshot")
 
 
 ## Features
@@ -39,7 +39,7 @@ You can also add new Page types easily, prior to calling the dialog:
 AutoPageType.addType("Test Category", "My Test Type", 100, 150, PageMeasureUnit.PT);  //add a Paper format of 100x150 points
 ```
       
-![Demo Screenshot](https://github.com/kkieffer/jCircularGauges/blob/master/PaegSetupScreenshot2.jpg "Demo Screenshot 2")
+![Demo Screenshot](https://github.com/kkieffer/jPageSetup/blob/master/PaegSetupScreenshot2.jpg "Demo Screenshot 2")
 
 
 ## Building
@@ -55,4 +55,4 @@ Only the Java JRE 1.8 is required.  No other dependencies are needed.
 ## License
 
 This project is licensed under the Apache License - see the [LICENSE.md](LICENSE.md) file for details
-
+The icon is a modified version of the Creative Commons licensed icon (https://commons.wikimedia.org/wiki/File:Module_doc_page_icon.svg "here")

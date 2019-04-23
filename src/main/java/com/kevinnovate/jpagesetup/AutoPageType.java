@@ -128,13 +128,15 @@ final class AutoPageType {
         }
         
         //Cards
-        types.add(new AutoPageType("Card", "3x5 Index", 3, 5, PageMeasureUnit.IN)); 
-        types.add(new AutoPageType("Card", "4x6 Index", 4, 6, PageMeasureUnit.IN)); 
-        types.add(new AutoPageType("Card", "5x8 Index", 5, 8, PageMeasureUnit.IN)); 
+        types.add(new AutoPageType("Card", "CR79", 3.303, 2.051, PageMeasureUnit.IN)); 
+        types.add(new AutoPageType("Card", "CR80", 3.375, 2.125, PageMeasureUnit.IN)); 
+        types.add(new AutoPageType("Card", "CR100", 3.88, 2.63, PageMeasureUnit.IN)); 
         types.add(new AutoPageType("Card", "International Business", 53.98, 85.6, PageMeasureUnit.MM)); 
         types.add(new AutoPageType("Card", "US Business", 2, 3.5, PageMeasureUnit.IN)); 
         types.add(new AutoPageType("Card", "Japanese Business", 50, 90, PageMeasureUnit.MM)); 
-        
+        types.add(new AutoPageType("Card", "3x5 Index", 3, 5, PageMeasureUnit.IN)); 
+        types.add(new AutoPageType("Card", "4x6 Index", 4, 6, PageMeasureUnit.IN)); 
+        types.add(new AutoPageType("Card", "5x8 Index", 5, 8, PageMeasureUnit.IN));         
          //Photo
         types.add(new AutoPageType("Photo", "3x5", 3, 5, PageMeasureUnit.IN)); 
         types.add(new AutoPageType("Photo", "4x6", 4, 6, PageMeasureUnit.IN)); 
@@ -149,6 +151,7 @@ final class AutoPageType {
         types.add(new AutoPageType("Other", "JIS B4", 257.0, 364.0, PageMeasureUnit.MM)); 
         types.add(new AutoPageType("Other", "JIS B5", 182.0, 257.0, PageMeasureUnit.MM)); 
         types.add(new AutoPageType("Other", "F4", 210.0, 330.0, PageMeasureUnit.MM)); 
+        types.add(new AutoPageType("Other", "PA4", 210.0, 280.0, PageMeasureUnit.MM)); 
 
         
     }

@@ -84,6 +84,7 @@ public class PageSetupDialog extends javax.swing.JDialog {
     
     private static ImageIcon landscapeIcon = new ImageIcon(PageSetupDialog.class.getResource("/icons/landscape_orientation.png"));
     private static ImageIcon portraitIcon = new ImageIcon(PageSetupDialog.class.getResource("/icons/portrait_orientation.png"));
+    private static ImageIcon revLandscapeIcon = new ImageIcon(PageSetupDialog.class.getResource("/icons/rev_landscape_orientation.png"));
     
     private PageMeasureUnit unit = null;
     private PageFormat returnFormat = null;
@@ -117,7 +118,7 @@ public class PageSetupDialog extends javax.swing.JDialog {
         return job.validatePage(f);
     }
     
-    
+    private int currentOrientation;
             
     /**
      * Create the PageSetupDialog
@@ -218,16 +219,29 @@ public class PageSetupDialog extends javax.swing.JDialog {
     }
     
     private void setFromOrientation(int orientation) {
-        if (orientation == PageFormat.PORTRAIT) {
-            portraitRadioButton.setSelected(true);
-            landscapeRadioButton.setSelected(false);
-            pageIconLabel.setIcon(portraitIcon);
-        } 
-        else { 
-            portraitRadioButton.setSelected(false);
-            landscapeRadioButton.setSelected(true);
-            pageIconLabel.setIcon(landscapeIcon);
-       }
+        currentOrientation = orientation;
+        switch (orientation) {
+            case PageFormat.PORTRAIT:
+                portraitRadioButton.setSelected(true);
+                landscapeRadioButton.setSelected(false);
+                revLandscapeRadioButton.setSelected(false);
+                pageIconLabel.setIcon(portraitIcon);
+                break;
+            case PageFormat.LANDSCAPE:
+                portraitRadioButton.setSelected(false);
+                landscapeRadioButton.setSelected(true);
+                revLandscapeRadioButton.setSelected(false);
+                pageIconLabel.setIcon(landscapeIcon);
+                break;
+            case PageFormat.REVERSE_LANDSCAPE:
+                portraitRadioButton.setSelected(false);
+                landscapeRadioButton.setSelected(false);
+                revLandscapeRadioButton.setSelected(true);
+                pageIconLabel.setIcon(revLandscapeIcon);
+                break;
+            default:
+                throw new RuntimeException("Unhandled format");
+        }
     }
     
     /**
@@ -253,8 +267,14 @@ public class PageSetupDialog extends javax.swing.JDialog {
      */
     private PageFormat getPageFormatFromValues() {
         
-        boolean isPortrait = portraitRadioButton.isSelected();
-    
+        int orientation;
+        if (portraitRadioButton.isSelected())
+            orientation = PageFormat.PORTRAIT;
+        else if (landscapeRadioButton.isSelected())
+            orientation = PageFormat.LANDSCAPE;
+        else
+            orientation = PageFormat.REVERSE_LANDSCAPE;
+   
         //Get paper dimensions in PageFormat units
         double width = unit.toPFUnits((double)widthSpinner.getValue());        
         double height = unit.toPFUnits((double)heightSpinner.getValue());
@@ -267,15 +287,26 @@ public class PageSetupDialog extends javax.swing.JDialog {
 
 
         PageFormat fmt = new PageFormat();
-        fmt.setOrientation(isPortrait ? PageFormat.PORTRAIT : PageFormat.LANDSCAPE);
+        fmt.setOrientation(orientation);
         
         Paper p = new Paper();
-        p.setSize(isPortrait ? width : height, isPortrait? height : width);
         
-        if (isPortrait)
-            p.setImageableArea(left, top, width - (left + right), height - (top + bottom));
-        else
-            p.setImageableArea(top, right, height - (top + bottom), width - (left + right));  //rotate counter-clockwise for Landscape
+        switch (orientation) {
+            case PageFormat.PORTRAIT:
+                p.setSize(width, height);
+                p.setImageableArea(left, top, width - (left + right), height - (top + bottom));
+                break;
+            case PageFormat.LANDSCAPE:
+                p.setSize(height, width);
+                p.setImageableArea(top, right, height - (top + bottom), width - (left + right));  //rotate counter-clockwise for Landscape
+                break;
+            case PageFormat.REVERSE_LANDSCAPE:
+                p.setSize(height, width);
+                p.setImageableArea(bottom, left, height - (top + bottom), width - (left + right));  //rotate clockwise for Rev Landscape             
+                break;
+            default:
+                throw new RuntimeException("Unhandled format");       
+        }
             
         fmt.setPaper(p);
         return fmt;
@@ -310,6 +341,7 @@ public class PageSetupDialog extends javax.swing.JDialog {
         orientationPane = new javax.swing.JPanel();
         portraitRadioButton = new javax.swing.JRadioButton();
         landscapeRadioButton = new javax.swing.JRadioButton();
+        revLandscapeRadioButton = new javax.swing.JRadioButton();
         marginsPane = new javax.swing.JPanel();
         leftMarginSpinner = new javax.swing.JSpinner();
         topMarginSpinner = new javax.swing.JSpinner();
@@ -335,9 +367,10 @@ public class PageSetupDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Page Setup");
-        setMinimumSize(new java.awt.Dimension(775, 450));
+        setMinimumSize(new java.awt.Dimension(775, 480));
+        setPreferredSize(new java.awt.Dimension(775, 480));
         setResizable(false);
-        setSize(new java.awt.Dimension(775, 450));
+        setSize(new java.awt.Dimension(775, 480));
 
         sizePane.setBorder(javax.swing.BorderFactory.createTitledBorder("Size"));
         java.awt.GridBagLayout entryPaneLayout = new java.awt.GridBagLayout();
@@ -363,7 +396,6 @@ public class PageSetupDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         sizePane.add(widthLabel, gridBagConstraints);
 
         heightSpinner.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, null, 0.1d));
@@ -380,13 +412,13 @@ public class PageSetupDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         sizePane.add(widthSpinner, gridBagConstraints);
 
         orientationPane.setLayout(new java.awt.GridBagLayout());
 
         buttonGroup.add(portraitRadioButton);
         portraitRadioButton.setText("Portrait");
+        portraitRadioButton.setToolTipText("Orientation with the short side at the top");
         portraitRadioButton.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 portraitRadioButtonItemStateChanged(evt);
@@ -395,27 +427,43 @@ public class PageSetupDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 15);
         orientationPane.add(portraitRadioButton, gridBagConstraints);
 
         buttonGroup.add(landscapeRadioButton);
         landscapeRadioButton.setText("Landscape");
+        landscapeRadioButton.setToolTipText("Orientation where Portrait is rotated counter-clockwise (standard for Windows)");
         landscapeRadioButton.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 landscapeRadioButtonItemStateChanged(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         orientationPane.add(landscapeRadioButton, gridBagConstraints);
+
+        buttonGroup.add(revLandscapeRadioButton);
+        revLandscapeRadioButton.setText("Reverse Landscape");
+        revLandscapeRadioButton.setToolTipText("Orientation where Portrait is rotated clockwise (standard for MacOS)");
+        revLandscapeRadioButton.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                revLandscapeRadioButtonItemStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        orientationPane.add(revLandscapeRadioButton, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(25, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         sizePane.add(orientationPane, gridBagConstraints);
 
         marginsPane.setBorder(javax.swing.BorderFactory.createTitledBorder("Margins"));
@@ -764,18 +812,34 @@ public class PageSetupDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_printerComboBoxActionPerformed
 
     private void landscapeRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_landscapeRadioButtonItemStateChanged
-        if (landscapeRadioButton.isSelected()) {
+        if (landscapeRadioButton.isSelected() && currentOrientation != PageFormat.LANDSCAPE) {
             pageIconLabel.setIcon(landscapeIcon);
-            flipOrientation();
+            if (currentOrientation == PageFormat.PORTRAIT)
+                flipOrientation();
+            
+            currentOrientation = PageFormat.LANDSCAPE;
         }
     }//GEN-LAST:event_landscapeRadioButtonItemStateChanged
 
     private void portraitRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_portraitRadioButtonItemStateChanged
-        if (portraitRadioButton.isSelected()) {
+        if (portraitRadioButton.isSelected() && currentOrientation != PageFormat.PORTRAIT) {
             pageIconLabel.setIcon(portraitIcon);
-            flipOrientation();
+            if (currentOrientation != PageFormat.PORTRAIT)
+                flipOrientation();
+            
+            currentOrientation = PageFormat.PORTRAIT;
         }
     }//GEN-LAST:event_portraitRadioButtonItemStateChanged
+
+    private void revLandscapeRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_revLandscapeRadioButtonItemStateChanged
+        if (revLandscapeRadioButton.isSelected() && currentOrientation != PageFormat.REVERSE_LANDSCAPE) {
+            pageIconLabel.setIcon(revLandscapeIcon);
+            if (currentOrientation == PageFormat.PORTRAIT)
+                flipOrientation();
+            
+            currentOrientation = PageFormat.REVERSE_LANDSCAPE;
+        }
+    }//GEN-LAST:event_revLandscapeRadioButtonItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -801,6 +865,7 @@ public class PageSetupDialog extends javax.swing.JDialog {
     private javax.swing.JLabel pageIconLabel;
     private javax.swing.JRadioButton portraitRadioButton;
     private javax.swing.JComboBox<PrintServiceEntry> printerComboBox;
+    private javax.swing.JRadioButton revLandscapeRadioButton;
     private javax.swing.JLabel rightLabel;
     private javax.swing.JSpinner rightMarginSpinner;
     private javax.swing.JPanel sizePane;

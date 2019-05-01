@@ -351,6 +351,7 @@ public class PageSetupDialog extends javax.swing.JDialog {
         topLabel = new javax.swing.JLabel();
         bottomLabel = new javax.swing.JLabel();
         rightLabel = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
         upperPane = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         measureUnitComboBox = new javax.swing.JComboBox<>();
@@ -369,8 +370,7 @@ public class PageSetupDialog extends javax.swing.JDialog {
         setTitle("Page Setup");
         setMinimumSize(new java.awt.Dimension(775, 480));
         setPreferredSize(new java.awt.Dimension(775, 480));
-        setResizable(false);
-        setSize(new java.awt.Dimension(775, 480));
+        setSize(new java.awt.Dimension(850, 480));
 
         sizePane.setBorder(javax.swing.BorderFactory.createTitledBorder("Size"));
         java.awt.GridBagLayout entryPaneLayout = new java.awt.GridBagLayout();
@@ -399,6 +399,7 @@ public class PageSetupDialog extends javax.swing.JDialog {
         sizePane.add(widthLabel, gridBagConstraints);
 
         heightSpinner.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, null, 0.1d));
+        heightSpinner.setMinimumSize(new java.awt.Dimension(50, 26));
         heightSpinner.setPreferredSize(new java.awt.Dimension(80, 26));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -408,6 +409,7 @@ public class PageSetupDialog extends javax.swing.JDialog {
         sizePane.add(heightSpinner, gridBagConstraints);
 
         widthSpinner.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, null, 0.1d));
+        widthSpinner.setMinimumSize(new java.awt.Dimension(50, 26));
         widthSpinner.setPreferredSize(new java.awt.Dimension(80, 26));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
@@ -467,78 +469,87 @@ public class PageSetupDialog extends javax.swing.JDialog {
         sizePane.add(orientationPane, gridBagConstraints);
 
         marginsPane.setBorder(javax.swing.BorderFactory.createTitledBorder("Margins"));
+        marginsPane.setMinimumSize(new java.awt.Dimension(300, 174));
         java.awt.GridBagLayout marginsPaneLayout = new java.awt.GridBagLayout();
-        marginsPaneLayout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
-        marginsPaneLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        marginsPaneLayout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0};
+        marginsPaneLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0};
         marginsPane.setLayout(marginsPaneLayout);
 
         leftMarginSpinner.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, null, 0.1d));
         leftMarginSpinner.setToolTipText("Non-printable area at the left of the page");
+        leftMarginSpinner.setMinimumSize(new java.awt.Dimension(50, 26));
         leftMarginSpinner.setPreferredSize(new java.awt.Dimension(80, 26));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         marginsPane.add(leftMarginSpinner, gridBagConstraints);
 
         topMarginSpinner.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, null, 0.1d));
         topMarginSpinner.setToolTipText("Non-printable area at the top of the page");
+        topMarginSpinner.setMinimumSize(new java.awt.Dimension(50, 26));
         topMarginSpinner.setPreferredSize(new java.awt.Dimension(80, 26));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         marginsPane.add(topMarginSpinner, gridBagConstraints);
 
         rightMarginSpinner.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, null, 0.1d));
         rightMarginSpinner.setToolTipText("Non-printable area at the right of the page");
+        rightMarginSpinner.setMinimumSize(new java.awt.Dimension(50, 26));
         rightMarginSpinner.setPreferredSize(new java.awt.Dimension(80, 26));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         marginsPane.add(rightMarginSpinner, gridBagConstraints);
 
         bottomMarginSpinner.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, null, 0.1d));
         bottomMarginSpinner.setToolTipText("Non-printable area at the bottom of the page");
+        bottomMarginSpinner.setMinimumSize(new java.awt.Dimension(50, 26));
         bottomMarginSpinner.setPreferredSize(new java.awt.Dimension(80, 26));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         marginsPane.add(bottomMarginSpinner, gridBagConstraints);
 
         leftLabel.setText("Left");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         marginsPane.add(leftLabel, gridBagConstraints);
 
         topLabel.setText("Top");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         marginsPane.add(topLabel, gridBagConstraints);
 
         bottomLabel.setText("Bottom");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
         marginsPane.add(bottomLabel, gridBagConstraints);
 
         rightLabel.setText("Right");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
         marginsPane.add(rightLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        marginsPane.add(filler1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -850,6 +861,7 @@ public class PageSetupDialog extends javax.swing.JDialog {
     private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton defaultForPrinterButton;
+    private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel heightLabel;
     private javax.swing.JSpinner heightSpinner;
     private javax.swing.JLabel jLabel2;
